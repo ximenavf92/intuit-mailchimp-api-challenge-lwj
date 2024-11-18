@@ -1,0 +1,87 @@
+---
+---
+<h2>Share the challenge proof!</h2>
+
+<form 
+  name="badge-challenge" 
+  method="POST" 
+  data-netlify="true" 
+  netlify-honeypot="bot-field" 
+  enctype="application/x-www-form-urlencoded"
+  action="/api/update-cpoints" 
+>
+  <!-- Hidden field for Netlify form name -->
+  <input type="hidden" name="form-name" value="badge-challenge" />
+
+  <!-- Honeypot field for spam protection -->
+  <p class="hidden">
+    <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+  </p>
+
+  <!-- User details -->
+  <label for="first-name">First Name:</label>
+  <input type="text" id="first-name" name="first-name" required />
+  
+  <label for="last-name">Last Name:</label>
+  <input type="text" id="last-name" name="last-name" required />
+
+  <label for="email">Your Email:</label>
+  <input type="email" id="email" name="email" required />
+
+  <!-- Multiple file upload field -->
+  <label for="proof">Selfie, screenshots, share proof that tasks have been completed:</label>
+  <input type="file" id="proof" name="proof[]" accept="image/*" multiple required />
+
+  <!-- Submit button -->
+  <button type="submit">Submit Challenge</button>
+</form>
+
+
+<style>
+    form {
+        display: grid;
+        gap: 1rem;
+        margin: 2rem 0;
+        justify-content: center;
+    }
+    
+    label {
+        font-size: 1.25rem;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="file"],
+    button {
+        font-size: 1rem;
+        padding: 0.5rem;
+        border-radius: 8px;
+        border: 1px solid #FF88DF;
+    }
+    
+    button {
+        background: #FF88DF;
+        color: #202020;
+        font-weight: 700;
+        cursor: pointer;
+        border-radius: 8px;
+    }
+    
+    button:hover {
+        background: #673259;
+    }
+    
+    /* Hidden field styles */
+    .hidden {
+        display: none;
+    }
+
+    h2 {
+		font-family: serif;
+		color: #FF88DF;
+		margin: 0;
+        text-align: center;
+        margin: 4rem 0 0;
+        font-size: 3rem;;
+	}
+</style>

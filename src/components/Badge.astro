@@ -1,0 +1,157 @@
+---
+interface Props {
+	title: string;
+	body: string;
+}
+
+const tasks = [
+  "Follow us on social @blvckspades ",
+  "Stop by our booth and take a selfie with us",
+  "Share your selfie on social #BlvkSpades",
+  "Sign up for our Beta app & play a game"
+];
+
+const { title, body } = Astro.props;
+---
+
+<div class="badge">
+		<h2>
+			<span class="visually-hidden">Render ATL 2025</span>
+      <img src="/public/assets/render-logo-2025.svg" alt="" width="400">
+		</h2>
+		<p class="instructions">
+			{body}
+		</p>
+       
+<!-- Progress Bar -->
+<div id="progress-bar" style="background: #1f1f1f; border: #673259 solid 2px; border-radius: 4px; width: 100%; height: 24px;">
+    <div id="progress" style="background: #FF88DF; height: 100%; width: 0%; transition: width 0.3s;"></div>
+  </div>
+  <p id="progress-text">0% Complete</p>
+  
+  <!-- Task List with Checkboxes -->
+  <form id="badge-challenge-form">
+    <ul>
+      {tasks.map((task, index) => (
+        <li>
+          <label>
+            <input type="checkbox" class="task-checkbox" data-index={index} /> {task}
+          </label>
+        </li>
+      ))}
+    </ul>
+  </form>
+        <footer>
+            <img src="/public/assets/blvk-spades-intuit-logo.png" alt="A Black Spades and Intuit Collaboration" width="400">
+        </footer>
+</div>
+<style>
+  .badge {
+    border-radius: 16px;
+    border: 8px solid #FF88DF;
+    background: #202020;
+    padding: 4em 2em 3rem;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    }
+
+	.badge form ul {
+		list-style: none;
+	}
+
+  .badge form ul li {
+    font-size: 24px;
+
+  }
+
+  .badge footer {
+    text-align: center;
+    margin: 2rem 0 0;
+    border-top: 2px solid #eeeeee;
+    padding-top: 3rem;
+  }
+
+	h2 {
+    font-size: px;
+		margin: 0;
+		font-size: 1.25rem;
+		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+
+    text-align: center;
+	}
+
+  #progress-text {
+    text-align: right;
+    opacity: .8;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  h2 img {
+    margin-bottom: 2rem;
+  }
+  
+
+	p {
+		margin-top: 0.5rem;
+		margin-bottom: 0;
+	}
+  .instructions {
+		margin: 1rem 0 2rem;
+		border: 1px solid #FF88DF;
+		background-color: #673259;
+		padding: 1.5rem;
+		border-radius: 8px;
+	}
+
+  .visually-hidden:not(:focus):not(:active) {
+  clip: rect(0 0 0 0); 
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap; 
+  width: 1px;
+}
+</style>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const checkboxes = document.querySelectorAll(".task-checkbox");
+      const progressBar = document.getElementById("progress");
+      const progressText = document.getElementById("progress-text");
+  
+      // Load saved progress from localStorage
+      checkboxes.forEach((checkbox, index) => {
+        const savedStatus = localStorage.getItem(`task_${index}`);
+        if (savedStatus === "completed") {
+          checkbox.checked = true;
+        }
+      });
+  
+      const updateProgress = () => {
+        const totalTasks = checkboxes.length;
+        const completedTasks = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+        const progressPercentage = (completedTasks / totalTasks) * 100;
+  
+        progressBar.style.width = progressPercentage + "%";
+        progressText.innerText = `${Math.round(progressPercentage)}% Complete`;
+  
+        // Save progress to localStorage
+        checkboxes.forEach((checkbox, index) => {
+          localStorage.setItem(`task_${index}`, checkbox.checked ? "completed" : "incomplete");
+        });
+      };
+  
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", updateProgress);
+      });
+  
+      updateProgress();
+    });
+  </script>
+  
